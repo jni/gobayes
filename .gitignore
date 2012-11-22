@@ -3,4 +3,5 @@ data/
 cluster
 *.pyc
 .*.swp
+.DS_Store
 ipython_log.py*
