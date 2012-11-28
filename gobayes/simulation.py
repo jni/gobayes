@@ -43,3 +43,17 @@ def generate_multiple_modules(gene_to_annots_map, size_distribution,
     modules = [generate_random_module(gene_to_annots_map, size,
         biased_annots, bias) for size in sizes]
     return modules
+
+def convert_test_output_to_prediction(annot_to_p_value_pairs, true_annots):
+    pred = []
+    y_true = []
+    for annot, p in annot_to_p_value_pairs:
+        pred.append(-np.log10(p))
+        if annot in true_annots:
+            y_true.append(1)
+        else:
+            y_true.append(0)
+    return np.array(pred), np.array(y_true)
+
+def precision_recall(gene_to_annots_map, size_distribution, number_of_modules):
+    pass
