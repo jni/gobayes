@@ -22,6 +22,13 @@ def make_annotation_dict(annot_table, ontology=None, canon=IdentityDict(),
             annot_dict[gene].add(annot)
     return annot_dict
 
+def make_inverse_annotation_dict(annot_dict):
+    inv_annot_dict = {}
+    for gene, annots in annot_dict.items():
+        for annot in annots:
+            inv_annot_dict.setdefault(annot, set([])).add(gene)
+    return inv_annot_dict
+
 def trace_ontology(ontology):
     descendants = nx.algorithms.dag.descendants
     d = {}
