@@ -38,13 +38,56 @@ def generate_random_module(gene_to_annots_map, size,
 
 def generate_multiple_modules(gene_to_annots_map, size_distribution,
                               number_of_modules, biased_annots=None, bias=1.0):
-    """Generate a set of gene modules by sampling genes with bias."""
+    """Generate a set of gene modules by sampling genes with bias.
+    
+    Parameters
+    ----------
+    gene_to_annots_map : {string: [string]} dictionary
+        A map from genes (symbols, gi: accessions, etc.) to functions
+        (e.g. GO ID)
+    size_distribution : list of int
+        The distribution of module sizes from which to sample.
+    number_of_modules : int
+        How many modules to generate.
+    biased_annots : string or [string], optional
+        Which annotations are sampled with bias. (default: None)
+    bias : float, optional
+        The odds of a biased annotation being chosen over an unbiased one.
+        (default: 1.0, no bias).
+        
+    Returns
+    -------
+    modules : list of list of string
+        A list of lists of genes selected at random.
+    """
     sizes = np.random.choice(size_distribution, number_of_modules)
     modules = [generate_random_module(gene_to_annots_map, size,
         biased_annots, bias) for size in sizes]
     return modules
 
 def convert_test_output_to_prediction(annot_to_p_value_pairs, true_annots):
+    """From hypothesis test output, generate an sklearn-compatible prediction.
+
+    sklearn and other prediction evaluation software expect prediction values
+    to increase with confidence, not decrease like p-values. They also want
+    a correct/incorrect label. This function takes GO hypothesis test values,
+    as well as the correct annotations, and produces prediction values and
+    labels.
+
+    Parameters
+    ----------
+    annot_to_p_value_pairs : list of (string, float) tuples
+        A one-to-one map of annotations to p-values, in tuple format.
+    true_annots : list of string
+        The annotations that we are actually looking for.
+
+    Returns
+    -------
+    pred : float np.ndarray, shape (N,)
+        The prediction values for each annotation
+    y_true : int np.ndarray, shape (N,)
+        Whether the prediction was true or not.
+    """
     pred = []
     y_true = []
     for annot, p in annot_to_p_value_pairs:
@@ -55,5 +98,3 @@ def convert_test_output_to_prediction(annot_to_p_value_pairs, true_annots):
             y_true.append(0)
     return np.array(pred), np.array(y_true)
 
-def precision_recall(gene_to_annots_map, size_distribution, number_of_modules):
-    pass
