@@ -1,11 +1,13 @@
 from collections import defaultdict
 import networkx as nx
 
+
 class IdentityDict(object):
     def __init__(self):
         pass
     def __getitem__(self, x):
         return x
+
 
 def make_annotation_dict(annot_table, ontology=None, canon=IdentityDict(),
                          gene_id_column=2, annot_column=4):
@@ -22,6 +24,7 @@ def make_annotation_dict(annot_table, ontology=None, canon=IdentityDict(),
             annot_dict[gene].add(annot)
     return annot_dict
 
+
 def make_inverse_annotation_dict(annot_dict):
     inv_annot_dict = {}
     for gene, annots in annot_dict.items():
@@ -29,9 +32,11 @@ def make_inverse_annotation_dict(annot_dict):
             inv_annot_dict.setdefault(annot, set([])).add(gene)
     return inv_annot_dict
 
+
 def trace_ontology(ontology):
     descendants = nx.algorithms.dag.descendants
     d = {}
     for node in ontology:
         d[node] = descendants(ontology, node)
     return d
+

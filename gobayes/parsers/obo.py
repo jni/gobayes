@@ -2,12 +2,15 @@ import itertools as it
 
 import networkx as nx
 
+
 def is_stanza_name(string):
     return string.startswith('[') and string.endswith(']')
+
 
 def is_transitive_relationship(typedef):
     return (typedef.has_key('is_transitive') and
             typedef['is_transitive'][0] == 'true')
+
 
 def obo2networkx(filename, parent_relationships=['is_a', 'part_of']):
     """Build a graph from an OBO file."""
@@ -22,6 +25,7 @@ def obo2networkx(filename, parent_relationships=['is_a', 'part_of']):
                 for parent in term[rel]:
                     g.add_edge(term['id'], parent['id'], kind=rel)
     return g
+
 
 def canonical_go_id(filename):
     """Return a mapping from synonymous GO IDs to their canonical ID.
@@ -54,6 +58,7 @@ def canonical_go_id(filename):
                 d[alt_id] = term_id
     return d
 
+
 def parse_obo_raw(filename):
     """Parse an OBO file into list of stanzas."""
     with open(filename, 'r') as f:
@@ -63,6 +68,7 @@ def parse_obo_raw(filename):
         header = get_header(lines_iter)
         stanzas = get_stanzas(lines_iter)
     return header, stanzas
+
 
 def get_header(lines_iter):
     """Return header dictionary and remove corresponding lines from input."""
@@ -80,6 +86,7 @@ def get_header(lines_iter):
             header[key] = value
     return header
 
+
 def get_stanzas(lines_iter):
     """Return keyed lists of stanzas from OBO lines cleaned of the header."""
     stanzas = {}
@@ -90,6 +97,7 @@ def get_stanzas(lines_iter):
         except StopIteration:
             break
     return stanzas
+
 
 def pop_stanza(lines_iter):
     stanza = {}
@@ -105,3 +113,4 @@ def pop_stanza(lines_iter):
         else:
             stanza.setdefault(key, []).append(value)
     return stanza_name, stanza
+

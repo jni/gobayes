@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def generate_random_module(gene_to_annots_map, size,
                            biased_annots=None, bias=1.0):
     """Produce a gene module by biased sampling of a specific annotation.
@@ -36,6 +37,7 @@ def generate_random_module(gene_to_annots_map, size,
     module = list(np.random.choice(genes, size, replace=False, p=p))
     return module
 
+
 def generate_multiple_modules(gene_to_annots_map, size_distribution,
                               number_of_modules, biased_annots=None, bias=1.0):
     """Generate a set of gene modules by sampling genes with bias.
@@ -64,6 +66,7 @@ def generate_multiple_modules(gene_to_annots_map, size_distribution,
     modules = [generate_random_module(gene_to_annots_map, size,
         biased_annots, bias) for size in sizes]
     return modules
+
 
 def convert_test_output_to_prediction(annot_to_p_value_pairs, true_annots):
     """From hypothesis test output, generate an sklearn-compatible prediction.
