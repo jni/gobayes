@@ -11,6 +11,31 @@ class IdentityDict(object):
 
 def make_annotation_dict(annot_table, ontology=None, canon=IdentityDict(),
                          gene_id_column=2, annot_column=4):
+    """Get a dictionary mapping genes to annotations.
+
+    Parameters
+    ----------
+    annot_table : list of lists
+        A gene annotation table such as that produced by
+        `parsers.annotation.annotation_table`.
+    ontology : NetworkX Graph, optional
+        The ontology of annotation terms. See `parsers.obo.obo2networkx`. If
+        provided, annotations will be traced to the root so that each
+        annotation implies all its ancestors.
+    canon : dict of string to string, optional
+        A dictionary mapping GO IDs to canonical GO IDs. This is necessary
+        when some annotations do not correspond to any node ID in the
+        ontology.
+    gene_id_column : int, optional
+        Which column in the annotation table corresponds to Gene ID.
+    annot_column : int, optional
+        Which column in the annotation table corresponds to the annotation.
+
+    Returns
+    -------
+    annot_dict : dict of string to list of string
+        A dictionary mapping genes to ontology terms.
+    """
     annot_dict = {}
     if ontology is not None:
         trace = trace_ontology(ontology)
