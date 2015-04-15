@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 
 def annotation_table(filename, discard=[(6, 'IEA')]):
     """Return a list of lists with the full contents of a GO annotation file."""

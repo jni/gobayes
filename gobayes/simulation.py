@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import unicode_literals
 import numpy as np
 
 
@@ -24,7 +26,7 @@ def generate_random_module(gene_to_annots_map, size,
     module : list of strings
         A list of genes selected at random (either uniformly or biased)
     """
-    genes = gene_to_annots_map.keys()
+    genes = list(gene_to_annots_map.keys())
     p = np.ones(len(genes))
     if biased_annots is not None:
         if type(biased_annots) == str:

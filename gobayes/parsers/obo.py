@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import unicode_literals
 import itertools as it
 
 import networkx as nx
@@ -8,7 +10,7 @@ def is_stanza_name(string):
 
 
 def is_transitive_relationship(typedef):
-    return (typedef.has_key('is_transitive') and
+    return ('is_transitive' in typedef and
             typedef['is_transitive'][0] == 'true')
 
 
@@ -21,7 +23,7 @@ def obo2networkx(filename, parent_relationships=['is_a', 'part_of']):
     for term in terms:
         g.node[term['id']].update(term)
         for rel in parent_relationships:
-            if term.has_key(rel):
+            if rel in term:
                 for parent in term[rel]:
                     g.add_edge(term['id'], parent['id'], kind=rel)
     return g
@@ -53,7 +55,7 @@ def canonical_go_id(filename):
     for term in terms:
         term_id = term['id']
         d[term_id] = term_id
-        if term.has_key('alt_id'):
+        if 'alt_id' in term:
             for alt_id in term['alt_id']:
                 d[alt_id] = term_id
     return d
@@ -73,10 +75,10 @@ def parse_obo_raw(filename):
 def get_header(lines_iter):
     """Return header dictionary and remove corresponding lines from input."""
     header = {}
-    header_lines = lines_iter.next()
+    header_lines = next(lines_iter)
     for line in header_lines:
         key, value = line.split(': ', 1)
-        if header.has_key(key):
+        if key in header:
             existing_value = header[key]
             if type(existing_value) != list:
                 header[key] = [existing_value, value]
@@ -102,7 +104,7 @@ def get_stanzas(lines_iter):
 def pop_stanza(lines_iter):
     stanza = {}
     stanza_name = lines_iter.next().next()[1:-1]
-    stanza_lines = lines_iter.next()
+    stanza_lines = next(lines_iter)
     for line in stanza_lines:
         key, value = line.split(': ', 1)
         if len(value.split(' ! ')) > 1:

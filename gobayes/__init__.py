@@ -1,3 +1,4 @@
-import hypertest, simulation, tools
-import parsers
+from __future__ import absolute_import
+from . import hypertest, simulation, tools
+from . import parsers
 

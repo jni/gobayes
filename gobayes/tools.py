@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from __future__ import unicode_literals
 from collections import defaultdict
 import networkx as nx
 
@@ -52,7 +54,7 @@ def make_annotation_dict(annot_table, ontology=None, canon=IdentityDict(),
 
 def make_inverse_annotation_dict(annot_dict):
     inv_annot_dict = {}
-    for gene, annots in annot_dict.items():
+    for gene, annots in list(annot_dict.items()):
         for annot in annots:
             inv_annot_dict.setdefault(annot, set([])).add(gene)
     return inv_annot_dict
