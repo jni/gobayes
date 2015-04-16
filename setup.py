@@ -28,7 +28,7 @@ if __name__ == '__main__':
         author=MAINTAINER,
         author_email=MAINTAINER_EMAIL,
         license=LICENSE,
-        packages=['viridis'],
+        packages=['gobayes', 'gobayes.parsers'],
         package_data={},
         install_requires=INST_DEPENDENCIES,
         scripts=[]
