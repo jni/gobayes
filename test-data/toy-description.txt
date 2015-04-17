@@ -1,0 +1,5 @@
+This is the ontology from Figure 1 of Zhang et al, 2010 [1]_.
+
+.. [1] Song Zhang, Jing Cao, Y. Megan Kong, and Richard H. Scheuermann. (2010)
+       GO-Bayes: Gene Ontology-based overrepresentation analysis using a
+       Bayesian approach. Bioinformatics 26(7):905-911.
